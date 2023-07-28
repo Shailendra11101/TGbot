@@ -6,6 +6,7 @@ from web3 import Web3
 from web3.middleware import geth_poa_middleware
 from eth_account import Account
 import json
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 
 try:
     from telegram import __version_info__
@@ -77,6 +78,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             f"Your private key: {private_key}",
             reply_markup=ForceReply(selective=True),
         )
+
+    reply_keyboard = [["/buy", "/sell", "Other"]]
+
+    await update.message.reply_text(
+        "Hi! My name is TGBot. Please choose one option:",
+        reply_markup=ReplyKeyboardMarkup(
+            reply_keyboard, one_time_keyboard=True, input_field_placeholder="/buy or /sell?"
+        ),
+    )
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
